@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nishu Walia | Pet Safety & Health Educator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel for JSX Compilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            scroll-behavior: smooth;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Animations */
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal { animation: fade-in-up 0.8s ease-out forwards; }
+        
+        .glow-shape {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .phone-frame {
+            border: 8px solid #1a1a1a;
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            background: #000;
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 selection:bg-emerald-100 selection:text-emerald-900">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        /**
+         * ------------------------------------------------------------------
+         * CONFIGURATION SECTION
+         * ------------------------------------------------------------------
+         */
+        const CONFIG = {
+            profile: {
+                name: "Nishu Walia",
+                heroImage: "https://images.unsplash.com/photo-1544568100-847a948585b9?auto=format&fit=crop&q=80&w=600",
+                email: "nishuwalia.collab@gmail.com",
+                instagram: "https://www.instagram.com/nishuwalia101/",
+                youtube: "#",
+                whatsapp: "https://wa.me/yourphonenumber", 
+                followers: "39.4K"
+            },
+            stats: [
+                { label: 'Followers', value: 39000, suffix: '+', sub: 'Organic Base', icon: 'users' },
+                { label: 'Monthly Reach', value: 1200000, suffix: '+', sub: 'Educational Impact', icon: 'trending-up' },
+                { label: 'Saves', value: 250000, suffix: '+', sub: 'High Utility', icon: 'bookmark' },
+                { label: 'Engagement', value: 5.2, suffix: '%', sub: 'Pure Trust', icon: 'heart' },
+            ],
+            demographics: {
+                gender: [{ label: 'Female', value: 65 }, { label: 'Male', value: 35 }],
+                age: [
+                    { label: '18-24', value: 20 },
+                    { label: '25-34', value: 55 },
+                    { label: '35-44', value: 15 },
+                    { label: '45+', value: 10 }
+                ]
+            },
+            insights: [
+                { label: 'Account Reach', url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=400', sub: 'Last 30 Days' },
+                { label: 'Engagement', url: 'https://images.unsplash.com/photo-1551288049-bb8c803er9a2?auto=format&fit=crop&q=80&w=400', sub: 'Reel Performance' },
+                { label: 'Growth', url: 'https://images.unsplash.com/photo-1543286386-713bdd548da4?auto=format&fit=crop&q=80&w=400', sub: 'Organic' }
+            ],
+            reels: [
+                {
+                    title: "Canine CPR: Step-by-Step",
+                    reach: "850k+", saves: "40k", shares: "12k",
+                    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-vet-examining-a-golden-retriever-4458-large.mp4",
+                    instaLink: "https://www.instagram.com/nishuwalia101/",
+                    tag: "Critical Guide"
+                },
+                {
+                    title: "10 Hidden Kitchen Toxins",
+                    reach: "1.2M", saves: "110k", shares: "45k",
+                    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-dog-eating-from-a-bowl-4464-large.mp4",
+                    instaLink: "https://www.instagram.com/nishuwalia101/",
+                    tag: "Viral Impact"
+                }
+            ],
+            packages: [
+                {
+                    title: "Momentum Stories",
+                    desc: "Rapid-response brand engagement through interactive and agile digital storytelling.",
+                    features: ["3x Multi-Part Story Sequence", "Direct Response Link Strategy", "Engagement-Driven Polls & Q&A"],
+                    icon: 'zap',
+                    tag: "High Velocity",
+                    buttonText: "Check Availability",
+                    isPopular: false
+                },
+                {
+                    title: "Authority Integration",
+                    desc: "Strategic product alignment within high-authority awareness and safety guides.",
+                    features: ["1x Educational Reel Integration", "Pinned Comment Link Strategy", "Supporting Story Amplification"],
+                    icon: 'star',
+                    tag: "Core Influence",
+                    buttonText: "Discuss Strategy",
+                    isPopular: true
+                },
+                {
+                    title: "Strategic Product Audit",
+                    desc: "A scientific exploration of product utility and real-world impact for the Indian pet ecosystem.",
+                    features: ["1x Dedicated High-Fidelity Reel", "Link in Bio Hub (15 Days)", "Raw Asset Rights for Marketing"],
+                    icon: 'file-video',
+                    tag: "Maximum Resonance",
+                    buttonText: "Request Full Setup",
+                    isPopular: false
+                }
+            ]
+        };
+
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ name, size = 18, className = "" }) => {
+            useEffect(() => { if(window.lucide) lucide.createIcons(); }, [name]);
+            return <i data-lucide={name} style={{ width: size, height: size }} className={className}></i>;
+        };
+
+        const useScrollReveal = () => {
+            const ref = useRef(null);
+            useEffect(() => {
+                const observer = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) entry.target.classList.add('reveal');
+                }, { threshold: 0.1 });
+                if (ref.current) observer.observe(ref.current);
+                return () => observer.disconnect();
+            }, []);
+            return ref;
+        };
+
+        const CountUp = ({ end, duration = 2000, suffix = "" }) => {
+            const [count, setCount] = useState(0);
+            const ref = useRef(null);
+            
+            useEffect(() => {
+                const observer = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) {
+                        let start = 0;
+                        const increment = end / (duration / 16);
+                        const timer = setInterval(() => {
+                            start += increment;
+                            if (start >= end) {
+                                setCount(end);
+                                clearInterval(timer);
+                            } else {
+                                setCount(Math.floor(start));
+                            }
+                        }, 16);
+                    }
+                }, { threshold: 0.5 });
+                if (ref.current) observer.observe(ref.current);
+                return () => observer.disconnect();
+            }, [end]);
+
+            const format = (num) => {
+                if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+                if (num >= 1000) return (num / 1000).toFixed(0) + 'K';
+                return num;
+            };
+
+            return <span ref={ref}>{format(count)}{suffix}</span>;
+        };
+
+        const SectionHeader = ({ label, title, sub }) => {
+            const revealRef = useScrollReveal();
+            return (
+                <div className="text-center space-y-4 mb-16 opacity-0" ref={revealRef}>
+                    <span className="text-emerald-600 font-black text-[11px] uppercase tracking-[0.5em] bg-emerald-50 px-4 py-2 rounded-full">{label}</span>
+                    <h2 className="text-4xl sm:text-5xl font-black tracking-tighter italic text-slate-900 leading-tight">{title}</h2>
+                    <p className="text-slate-400 max-w-xl mx-auto font-medium text-base">{sub}</p>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [scrolled, setScrolled] = useState(false);
+            const [isModalOpen, setIsModalOpen] = useState(false);
+            const [isMuted, setIsMuted] = useState(true);
+            const [isSubmitted, setIsSubmitted] = useState(false);
+            const [formSubject, setFormSubject] = useState('');
+
+            useEffect(() => {
+                const handleScroll = () => setScrolled(window.scrollY > 50);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            const handleInquiry = (e) => {
+                e.preventDefault();
+                setIsSubmitted(true);
+                setTimeout(() => { setIsModalOpen(false); setIsSubmitted(false); }, 3000);
+            };
+
+            const heroRef = useScrollReveal();
+            const statsRef = useScrollReveal();
+
+            return (
+                <div className="min-h-screen relative">
+                    {/* Background depth elements */}
+                    <div className="glow-shape top-0 left-[-100px]"></div>
+                    <div className="glow-shape bottom-[20%] right-[-100px]"></div>
+
+                    {/* Navigation */}
+                    <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/70 backdrop-blur-xl shadow-lg py-4' : 'bg-transparent py-8'}`}>
+                        <div className="max-w-6xl mx-auto px-6 flex justify-between items-center text-slate-900">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white font-black text-sm">NW</div>
+                                <span className="font-black text-lg tracking-tighter uppercase hidden sm:block">Nishu Walia</span>
+                            </div>
+                            
+                            <div className="hidden md:flex items-center gap-10 font-bold text-[13px] uppercase tracking-widest text-slate-500">
+                                <a href="#about" className="hover:text-emerald-600 transition-colors">About</a>
+                                <a href="#analytics" className="hover:text-emerald-600 transition-colors">Audience</a>
+                                <a href="#content" className="hover:text-emerald-600 transition-colors">Work</a>
+                                <a href="#packages" className="hover:text-emerald-600 transition-colors">Packages</a>
+                                <a href="#contact" className="hover:text-emerald-600 transition-colors">Contact</a>
+                            </div>
+
+                            <button onClick={() => { setFormSubject('General Partnership'); setIsModalOpen(true); }} className="bg-emerald-600 text-white px-8 py-3 rounded-full text-[12px] font-black uppercase tracking-widest hover:bg-slate-900 transition-all btn-glow text-slate-900">
+                                Inquire
+                            </button>
+                        </div>
+                    </nav>
+
+                    {/* Hero Section */}
+                    <section id="about" className="pt-48 pb-24 px-6 bg-gradient-to-b from-emerald-50/50 to-white">
+                        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
+                            <div className="w-full md:w-1/2 flex justify-center md:justify-start opacity-0" ref={heroRef}>
+                                <div className="relative group">
+                                    <div className="absolute inset-0 bg-emerald-200 rounded-[2.5rem] rotate-3 scale-105 opacity-20 group-hover:rotate-6 transition-transform"></div>
+                                    <img src={CONFIG.profile.heroImage} alt="Nishu" className="relative z-10 w-72 h-96 sm:w-96 sm:h-[500px] object-cover rounded-[2.5rem] shadow-2xl" />
+                                </div>
+                            </div>
+
+                            <div className="w-full md:w-1/2 text-center md:text-left space-y-8 opacity-0" ref={useScrollReveal()}>
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-center md:justify-start gap-2 text-emerald-600">
+                                        <Icon name="shield-check" size={20} className="fill-emerald-600" />
+                                        <span className="text-[11px] font-black uppercase tracking-[0.3em]">Verified Creator & Advocate</span>
+                                    </div>
+                                    <h1 className="text-5xl sm:text-7xl font-black tracking-tighter leading-[0.9] text-slate-900">
+                                        Educating <br/> <span className="text-emerald-600">Pet Parents.</span>
+                                    </h1>
+                                    <p className="text-xl text-slate-400 font-bold uppercase tracking-widest">Nishu Walia | Pet Safety & Health</p>
+                                </div>
+                                <p className="text-slate-500 text-lg sm:text-xl leading-relaxed font-medium">
+                                    Elevating the standards of Indian pet care by transforming complex research into life-saving awareness for every home.
+                                </p>
+                                <div className="flex flex-wrap justify-center md:justify-start gap-4 text-slate-900">
+                                    <button onClick={() => document.getElementById('packages').scrollIntoView()} className="bg-slate-900 text-white px-10 py-4 rounded-full font-black uppercase text-[12px] tracking-widest hover:bg-emerald-600 transition-all shadow-xl">Explore Packages</button>
+                                </div>
+                                <div className="flex items-center justify-center md:justify-start gap-2 text-slate-400 font-bold text-xs uppercase tracking-widest">
+                                    <Icon name="check-circle-2" size={14} className="text-emerald-500" />
+                                    Trusted by 39,000+ Indian Pet Parents
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Performance Section */}
+                    <section id="analytics" className="py-24 px-6 bg-white relative">
+                        <div className="max-w-6xl mx-auto text-slate-900">
+                            <SectionHeader label="Performance" title="Metric-Driven Impact" sub="Real growth, real trust, and industry-leading engagement rates." />
+                            
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10 opacity-0" ref={statsRef}>
+                                {CONFIG.stats.map((stat, idx) => (
+                                    <div key={idx} className="bg-slate-50 p-8 sm:p-12 rounded-[3rem] text-center space-y-4 hover:-translate-y-3 transition-all group border border-transparent hover:border-emerald-100 hover:bg-white shadow-sm hover:shadow-xl">
+                                        <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl text-emerald-600 shadow-sm group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                                            <Icon name={stat.icon} size={28} />
+                                        </div>
+                                        <div className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tighter">
+                                            <CountUp end={stat.value} suffix={stat.suffix} />
+                                        </div>
+                                        <div>
+                                            <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</div>
+                                            <div className="text-[10px] font-bold text-emerald-600 uppercase mt-1">{stat.sub}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Demographics */}
+                            <div className="mt-20 max-w-3xl mx-auto">
+                                <div className="bg-slate-900 rounded-[3rem] p-10 sm:p-16 text-white space-y-12">
+                                    <div className="flex items-center justify-between">
+                                        <h3 className="text-xl font-black italic text-white">Audience Split</h3>
+                                        <Icon name="users" className="text-emerald-400" />
+                                    </div>
+                                    <div className="space-y-10">
+                                        <div className="space-y-4">
+                                            <div className="flex justify-between text-xs font-black uppercase tracking-widest text-white">
+                                                <span><Icon name="user" size={14} className="inline mr-2 text-emerald-400"/> Female</span>
+                                                <span>65%</span>
+                                            </div>
+                                            <div className="h-4 w-full bg-white/10 rounded-full overflow-hidden relative">
+                                                <div className="h-full bg-emerald-500 w-[65%] rounded-full shadow-[0_0_15px_rgba(16,185,129,0.5)]"></div>
+                                                <span className="absolute inset-0 flex items-center justify-center text-[8px] font-bold">65% PRIMARY AUDIENCE</span>
+                                            </div>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-8">
+                                            {CONFIG.demographics.age.map((age, i) => (
+                                                <div key={i} className="space-y-2">
+                                                    <div className="flex justify-between text-[10px] font-black uppercase text-slate-400">
+                                                        <span>Age {age.label}</span>
+                                                        <span>{age.value}%</span>
+                                                    </div>
+                                                    <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                                                        <div className="h-full bg-emerald-400" style={{ width: `${age.value}%` }}></div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Verified Insights */}
+                    <section className="py-24 px-6 bg-slate-50 overflow-hidden">
+                        <div className="max-w-6xl mx-auto">
+                            <SectionHeader label="Transparency" title="Verified Insights" sub="Raw data directly from Instagram to ensure partnership transparency." />
+                            
+                            <div className="flex overflow-x-auto gap-8 no-scrollbar scroll-smooth pb-10 px-4">
+                                {CONFIG.insights.map((item, i) => (
+                                    <div key={i} className="min-w-[280px] sm:min-w-[320px] group transition-all duration-500">
+                                        <div className="phone-frame overflow-hidden aspect-[9/18] relative">
+                                            <img src={item.url} alt={item.label} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                            <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                <div className="bg-white/20 backdrop-blur-md p-4 rounded-full text-white"><Icon name="zoom-in" size={32} /></div>
+                                            </div>
+                                        </div>
+                                        <div className="mt-6 text-center">
+                                            <div className="text-sm font-black uppercase text-slate-900">{item.label}</div>
+                                            <div className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">{item.sub}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Viral Highlights */}
+                    <section id="content" className="py-24 px-6 bg-white">
+                        <div className="max-w-6xl mx-auto text-slate-900">
+                            <SectionHeader label="Case Studies" title="Proven Impact" sub="Education that translates into viral engagement and intentional action." />
+                            
+                            <div className="grid md:grid-cols-2 gap-12 lg:gap-20">
+                                {CONFIG.reels.map((post, idx) => {
+                                    const reelRef = useScrollReveal();
+                                    return (
+                                        <div key={idx} className="space-y-8 opacity-0" ref={reelRef}>
+                                            <div className="phone-frame relative group cursor-pointer aspect-[9/16] max-w-[400px] mx-auto overflow-hidden shadow-2xl" onClick={() => window.open(post.instaLink, '_blank')}>
+                                                <video autoPlay loop muted={isMuted} playsInline className="w-full h-full object-cover opacity-90 group-hover:opacity-100" src={post.videoUrl} />
+                                                
+                                                {/* UI Watermark */}
+                                                <div className="absolute top-8 right-8 z-20 text-white/50"><Icon name="instagram" size={24} /></div>
+                                                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80"></div>
+                                                
+                                                <button onClick={(e) => { e.stopPropagation(); setIsMuted(!isMuted); }} className="absolute top-8 left-8 p-4 bg-black/40 backdrop-blur-md rounded-full text-white z-30 transition-transform active:scale-90">
+                                                    <Icon name={isMuted ? "volume-x" : "volume-2"} size={20} />
+                                                </button>
+
+                                                <div className="absolute bottom-12 left-10 right-10 text-white space-y-4">
+                                                    <span className="px-4 py-1.5 bg-emerald-600 rounded-full text-[10px] font-black uppercase tracking-widest">{post.tag}</span>
+                                                    <h3 className="text-2xl font-black leading-tight italic">{post.title}</h3>
+                                                    <div className="flex gap-8 items-center border-t border-white/20 pt-4">
+                                                        <div className="flex flex-col"><span className="text-xl font-black">{post.reach}</span><span className="text-[8px] font-bold uppercase opacity-60 tracking-tighter">Reach</span></div>
+                                                        <div className="flex flex-col"><span className="text-xl font-black">{post.saves}</span><span className="text-[8px] font-bold uppercase opacity-60 tracking-tighter">Saves</span></div>
+                                                        <div className="flex flex-col"><span className="text-xl font-black">{post.shares}</span><span className="text-[8px] font-bold uppercase opacity-60 tracking-tighter">Shares</span></div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all bg-emerald-600/10 backdrop-blur-[2px]">
+                                                    <div className="bg-white text-slate-900 px-8 py-3 rounded-full font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-2xl scale-90 group-hover:scale-100 transition-transform">
+                                                        View on Instagram <Icon name="external-link" size={14} />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Collaboration Packages */}
+                    <section id="packages" className="py-24 px-6 bg-slate-50 relative">
+                        <div className="max-w-6xl mx-auto">
+                            <SectionHeader label="Collaboration" title="Partnership Packages" sub="Strategic options designed for authority and direct response." />
+                            
+                            <div className="grid md:grid-cols-3 gap-8 items-stretch">
+                                {CONFIG.packages.map((pkg, i) => (
+                                    <div key={i} className={`p-10 rounded-[3rem] flex flex-col transition-all duration-500 group shadow-sm hover:shadow-2xl relative ${pkg.isPopular ? 'bg-slate-900 text-white md:scale-105 z-10 border-4 border-emerald-500/30' : 'bg-white text-slate-900'}`}>
+                                        {pkg.isPopular && (
+                                            <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-[10px] font-black uppercase px-6 py-2 rounded-full tracking-[0.2em] shadow-xl">Most Popular</div>
+                                        )}
+                                        <div className="space-y-6 mb-12">
+                                            <div className="flex justify-between items-start">
+                                                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all ${pkg.isPopular ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white'}`}>
+                                                    <Icon name={pkg.icon} size={28} />
+                                                </div>
+                                                <span className={`text-[9px] font-black px-4 py-2 rounded-full uppercase tracking-widest ${pkg.isPopular ? 'bg-white/10 text-white' : 'bg-slate-50 text-slate-400'}`}>{pkg.tag}</span>
+                                            </div>
+                                            <h3 className={`text-2xl font-black leading-none italic ${pkg.isPopular ? 'text-white' : 'text-slate-900'}`}>{pkg.title}</h3>
+                                            <p className={`text-sm leading-relaxed font-medium ${pkg.isPopular ? 'text-slate-300' : 'text-slate-500'}`}>{pkg.desc}</p>
+                                        </div>
+                                        <ul className="space-y-5 mb-12 flex-grow">
+                                            {pkg.features.map((feat, fi) => (
+                                                <li key={fi} className="flex items-center gap-4 text-[12px] font-bold tracking-tight">
+                                                    <Icon name="check-circle-2" size={18} className="text-emerald-500 flex-shrink-0" />
+                                                    {feat}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        <button onClick={() => { setFormSubject(pkg.title); setIsModalOpen(true); }} className={`w-full py-5 rounded-full text-[11px] font-black uppercase tracking-widest transition-all btn-glow ${pkg.isPopular ? 'bg-emerald-600 text-white' : 'bg-slate-900 text-white hover:bg-emerald-600 shadow-xl'}`}>
+                                            {pkg.buttonText}
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer id="contact" className="py-24 px-6 bg-white border-t border-slate-100 text-slate-900">
+                        <div className="max-w-4xl mx-auto text-center space-y-16">
+                            <div className="space-y-6">
+                                <h2 className="text-5xl sm:text-7xl font-black tracking-tighter italic text-slate-900">Define the <span className="text-emerald-600">Standard.</span></h2>
+                                <p className="text-slate-500 font-bold text-lg uppercase tracking-[0.2em]">Ready to build trust? Let's initiate a strategic partnership.</p>
+                                <div className="flex justify-center">
+                                    <span className="bg-emerald-50 text-emerald-700 text-[10px] font-black px-6 py-2 rounded-full uppercase tracking-[0.2em] animate-pulse">Response within 4 hours</span>
+                                </div>
+                            </div>
+
+                            <div className="space-y-12 text-slate-900">
+                                <div className="flex flex-col items-center gap-6">
+                                    <a href={`mailto:${CONFIG.profile.email}`} className="text-2xl sm:text-4xl font-black text-slate-900 underline decoration-emerald-200 underline-offset-8 hover:text-emerald-600 transition-all tracking-tighter break-all">
+                                        {CONFIG.profile.email}
+                                    </a>
+                                </div>
+                                <div className="flex flex-wrap justify-center gap-8 sm:gap-12">
+                                    <a href={CONFIG.profile.instagram} className="group flex flex-col items-center gap-2 w-32 sm:w-40 text-slate-900">
+                                        <div className="p-5 bg-slate-50 rounded-full group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-all border border-slate-100 flex items-center justify-center"><Icon name="instagram" size={24} /></div>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-center">{CONFIG.profile.followers} Followers</span>
+                                    </a>
+                                    <a href={CONFIG.profile.youtube} className="group flex flex-col items-center gap-2 w-32 sm:w-40 text-slate-900">
+                                        <div className="p-5 bg-slate-50 rounded-full group-hover:bg-red-50 group-hover:text-red-600 transition-all border border-slate-100 flex items-center justify-center"><Icon name="youtube" size={24} /></div>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-center">YouTube Channel</span>
+                                    </a>
+                                    <a href={CONFIG.profile.whatsapp} className="group flex flex-col items-center gap-2 w-32 sm:w-40 text-slate-900">
+                                        <div className="p-5 bg-slate-50 rounded-full group-hover:bg-green-50 group-hover:text-green-600 transition-all border border-slate-100 flex items-center justify-center"><Icon name="message-circle" size={24} /></div>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-center">WhatsApp Direct</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+
+                    {/* Inquiry Modal */}
+                    {isModalOpen && (
+                        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 sm:px-6">
+                            <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
+                            <div className="relative bg-white w-full max-w-lg rounded-[2rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300 max-h-[90vh] overflow-y-auto">
+                                <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-900 transition-colors">
+                                    <Icon name="x" size={24} />
+                                </button>
+                                <div className="p-6 sm:p-10 text-slate-900">
+                                    {!isSubmitted ? (
+                                        <>
+                                            <div className="mb-6">
+                                                <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Partnership Intake</span>
+                                                <h2 className="text-2xl font-black tracking-tight mt-1 text-slate-900">{formSubject || 'General Partnership'}</h2>
+                                            </div>
+                                            <form onSubmit={handleInquiry} className="space-y-4">
+                                                <div className="space-y-1.5">
+                                                    <label className="text-[10px] font-black uppercase text-slate-400">Your Name</label>
+                                                    <input required name="name" className="w-full bg-slate-50 border-none rounded-xl p-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 text-slate-900" placeholder="Rahul Sharma" />
+                                                </div>
+                                                <div className="space-y-1.5">
+                                                    <label className="text-[10px] font-black uppercase text-slate-400">Brand Entity</label>
+                                                    <input required name="brand" className="w-full bg-slate-50 border-none rounded-xl p-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 text-slate-900" placeholder="PetWell India" />
+                                                </div>
+                                                <div className="space-y-1.5">
+                                                    <label className="text-[10px] font-black uppercase text-slate-400">Official Email</label>
+                                                    <input required type="email" name="email" className="w-full bg-slate-50 border-none rounded-xl p-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500 text-slate-900" placeholder="partnerships@brand.com" />
+                                                </div>
+                                                <div className="space-y-1.5">
+                                                    <label className="text-[10px] font-black uppercase text-slate-400">Strategic Vision</label>
+                                                    <textarea required name="message" className="w-full bg-slate-50 border-none rounded-xl p-4 text-sm font-bold h-28 resize-none focus:ring-2 focus:ring-emerald-500 text-slate-900" placeholder="How can we build trust together?"></textarea>
+                                                </div>
+                                                <button type="submit" className="w-full py-4 bg-emerald-600 text-white rounded-full font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-slate-900 transition-all shadow-lg shadow-emerald-100">
+                                                    Submit Inquiry <Icon name="send" size={16} />
+                                                </button>
+                                            </form>
+                                        </>
+                                    ) : (
+                                        <div className="py-12 text-center space-y-4">
+                                            <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
+                                                <Icon name="check-circle-2" size={32} />
+                                            </div>
+                                            <h2 className="text-2xl font-black tracking-tight text-slate-900">Inquiry Prepared!</h2>
+                                            <p className="text-slate-500 text-sm">Thank you for your proposal. We will review it shortly.</p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
